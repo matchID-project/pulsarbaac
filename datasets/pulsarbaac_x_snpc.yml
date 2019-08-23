@@ -1,0 +1,5 @@
+datasets:
+  pulsarbaac_x_snpc:
+    connector: elasticsearch
+    table: pulsarbaac_x_snpc
+    validation: true

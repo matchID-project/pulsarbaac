@@ -1,0 +1,7 @@
+datasets:
+  pulsarbaac_x_snpc_export:
+    connector: upload
+    table: pulsarbaac_x_snpc_export.csv
+    type: csv
+    sep: ";"
+    encoding: "utf8"

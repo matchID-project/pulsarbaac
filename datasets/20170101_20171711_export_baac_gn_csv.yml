@@ -1,0 +1,7 @@
+datasets:
+  20170101_20171711_export_baac_gn_csv:
+    connector: upload
+    table: 20170101-20171711_export_baac_gn.csv
+    type: csv
+    sep: ";"
+    encoding: "latin1"

@@ -1,0 +1,28 @@
+recipes:
+  train_pulsarbaac_x_snpc:
+    input:
+      dataset: pulsarbaac_x_snpc
+      chunked: False 
+      select:
+        query:
+          constant_score: 
+            filter:
+              exists:
+                field:
+                  validation_done
+
+    steps:
+      - build_model:
+          model:
+            name: pulsarbaac_x_snpc_ml
+            method: RandomForestRegressor
+            parameters:
+              n_estimators: 20
+              max_depth: 4
+              min_samples_leaf: 5
+            tries: 3
+            test_size: 0.33
+          numerical: .*(hit_score_(?!ml).*|score|rank|len|latitude|longitude|score_es|max|unfiltered|population|surface|matchid_hit_distance)$
+          #categorical: .*(matchid_location_countrycode)$
+          target: validation_decision
+ 

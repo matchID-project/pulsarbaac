@@ -1,0 +1,50 @@
+recipes:
+  dataprep_pulsarbaac:
+    threads: 20
+    test_chunk_size: 100
+    input: 20170101_20171711_export_baac_gn_csv
+    output: pulsarbaac
+    steps:
+      - eval:
+          - matchid_id: sha1(row)
+          - matchid_src: str("pulsarbaac")
+          - matchid_tag: "20171117"
+      - map:
+          #mappings id, nsame, sex, date and location
+          matchid_name_last_src: Nom
+          matchid_name_first_src: Prenom
+          matchid_sex_src: Sexe
+          matchid_date_birth_src: DateNaissance
+      #location:
+      - eval:
+          - matchid_location_city_src: str("XXXXX")
+          - matchid_location_depcode_src: str("XX")
+          - matchid_location_countrycode_src: str("XXX")
+          - matchid_location_countrycode: str("XXX")
+          - matchid_location_country: str("XXXXX")
+          - matchid_location_city: str("XXXXX")
+          - matchid_location_citycode : str("XXXXX")
+          - matchid_location_citycode_history: list([])
+          - matchid_location_depcode: str("XX")
+          - matchid_location_city_geopoint_2d: str("")
+     #sex:
+      - eval:
+         - matchid_sex: int(matchid_sex_src)
+     #name:
+      - french_name_normalize:
+      - french_name_frequency:      
+      # date
+      - replace:
+          select: matchid_date_birth_src
+          regex:
+            - '0199\s*$': '/1990'
+            - '1296$': '1926'
+            - '0001$': '2001'
+            - '020(\d)$': '200\d'
+            - '1[0-1](\d{2})$': '19\1'
+            - '09(\d{2})$': '19\1'
+            - '00(\d{2})$': '19\1'
+            - '^(\d{2})/(\d{2})/(\d{4})': '\3\2\1' # dates invalides 
+      - ymd_date:      
+   
+      

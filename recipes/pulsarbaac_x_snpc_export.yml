@@ -1,0 +1,15 @@
+recipes:
+  pulsarbaac_x_snpc_export:
+    test_chunk_size: 500
+    input: pulsarbaac_x_snpc
+    output: pulsarbaac_x_snpc_export
+    steps:
+      - eval:
+          - Identite_SNPC: hit_matchid_name_first_src + ", " + " ".join(hit_matchid_name_last_src) + ", " + hit_matchid_date_birth_src if (confiance >= 40) else str("")
+          - Cle_SNPC: hit_matchid_id if (confiance >= 40) else str("")
+          - Numero_SNPC: hit_matchid_id_bis if (confiance >= 40) else str("")
+          - confiance: confiance if (confiance >= 40) else str("")
+      - delete:
+          select: .*matchid.*|^id$|.*scor.*|.*hit.*
+          where: (matchid_hit_score_rank > 1)
+      

@@ -1,0 +1,4 @@
+datasets:
+  pulsarbaac:
+    connector: elasticsearch
+    table: pulsarbaac
